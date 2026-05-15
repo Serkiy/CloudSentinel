@@ -110,6 +110,19 @@ terraform show -json tfplan.binary > tfplan.json
 dotnet run --project CloudSentinel -- --input path/to/tfplan.json --output report.pdf
 ```
 
+You can also choose the output format: PDF (default), JSON, or SARIF. Use `--format` (or `-f`) with `pdf`, `json`, or `sarif`:
+
+```bash
+# PDF (default)
+dotnet run --project CloudSentinel -- --input input/tfplan.json --output output/report.pdf
+
+# JSON
+dotnet run --project CloudSentinel -- --input input/tfplan.json --output output/report.json --format json
+
+# SARIF
+dotnet run --project CloudSentinel -- --input input/tfplan.json --output output/report.sarif --format sarif
+```
+
 ### 4. Open the report
 
 The PDF report will be saved to the path specified by `--output`. It contains:
@@ -183,6 +196,21 @@ public class S3VersioningRule : IRule
     }
 }
 ```
+
+---
+
+## Running Tests
+
+This repository includes an xUnit test project that exercises the rule engine against the sample `input/tfplan.json` file.
+
+Run tests with:
+
+```bash
+dotnet test
+```
+
+The test scaffolding also demonstrates how to parse a Terraform plan and exercise the `ScanEngine` in an integration-style test.
+
 
 3. Register it in `ScanEngine.cs`:
 

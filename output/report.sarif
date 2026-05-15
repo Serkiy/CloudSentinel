@@ -1,0 +1,77 @@
+{
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "CloudSentinel"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "NET-001",
+          "level": "error",
+          "message": {
+            "text": "Security group has an ingress rule open to 0.0.0.0/0, allowing unrestricted access from the internet. This poses a significant security risk and should be restricted to specific IP ranges or removed if not necessary."
+          }
+        },
+        {
+          "ruleId": "STG-001",
+          "level": "error",
+          "message": {
+            "text": "S3 bucket does not block public ACLs. Objects in this bucket can be made publicly accessible via ACL grants."
+          }
+        },
+        {
+          "ruleId": "STG-001",
+          "level": "error",
+          "message": {
+            "text": "S3 bucket does not block public bucket policies. A bucket policy could expose this bucket\u0027s contents to the public internet."
+          }
+        },
+        {
+          "ruleId": "IAM-001",
+          "level": "error",
+          "message": {
+            "text": "IAM policy grants wildcard (*) Action, allowing the attached principal to perform any AWS action."
+          }
+        },
+        {
+          "ruleId": "IAM-001",
+          "level": "error",
+          "message": {
+            "text": "IAM policy grants access to wildcard (*) Resource, allowing actions on every resource in the AWS account."
+          }
+        },
+        {
+          "ruleId": "ENC-001",
+          "level": "error",
+          "message": {
+            "text": "S3 bucket does not have server-side encryption configured. Objects stored in this bucket are not encrypted at rest."
+          }
+        },
+        {
+          "ruleId": "ENC-001",
+          "level": "error",
+          "message": {
+            "text": "RDS database instance has storage encryption disabled. Database files, backups, and snapshots are stored unencrypted."
+          }
+        },
+        {
+          "ruleId": "ENC-001",
+          "level": "error",
+          "message": {
+            "text": "EBS volume is not encrypted. Data stored on this volume is readable if the underlying storage is accessed directly."
+          }
+        },
+        {
+          "ruleId": "LOG-001",
+          "level": "warning",
+          "message": {
+            "text": "CloudTrail has logging explicitly disabled. API activity in this AWS account is not being recorded, making security incidents undetectable and unauditable."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "RiskScore": 69,
+  "Grade": "D",
+  "TotalFindings": 9,
+  "Findings": [
+    {
+      "RuleId": "NET-001",
+      "ResourceName": "aws_security_group.open_web_server",
+      "Description": "Security group has an ingress rule open to 0.0.0.0/0, allowing unrestricted access from the internet. This poses a significant security risk and should be restricted to specific IP ranges or removed if not necessary.",
+      "Remediation": "Review the security group rules and restrict access to specific IP ranges or remove the open rule if it\u0027s not necessary.",
+      "Severity": "Critical"
+    },
+    {
+      "RuleId": "STG-001",
+      "ResourceName": "aws_s3_bucket_public_access_block.app_bucket",
+      "Description": "S3 bucket does not block public ACLs. Objects in this bucket can be made publicly accessible via ACL grants.",
+      "Remediation": "Set block_public_acls = true in your aws_s3_bucket_public_access_block resource to prevent public ACL grants on this bucket.",
+      "Severity": "Critical"
+    },
+    {
+      "RuleId": "STG-001",
+      "ResourceName": "aws_s3_bucket_public_access_block.app_bucket",
+      "Description": "S3 bucket does not block public bucket policies. A bucket policy could expose this bucket\u0027s contents to the public internet.",
+      "Remediation": "Set block_public_policy = true in your aws_s3_bucket_public_access_block resource to prevent public bucket policies.",
+      "Severity": "Critical"
+    },
+    {
+      "RuleId": "IAM-001",
+      "ResourceName": "aws_iam_policy.admin_policy",
+      "Description": "IAM policy grants wildcard (*) Action, allowing the attached principal to perform any AWS action.",
+      "Remediation": "Replace Action: \u0027*\u0027 with only the specific actions this principal needs. Follow the principle of least privilege.",
+      "Severity": "High"
+    },
+    {
+      "RuleId": "IAM-001",
+      "ResourceName": "aws_iam_policy.admin_policy",
+      "Description": "IAM policy grants access to wildcard (*) Resource, allowing actions on every resource in the AWS account.",
+      "Remediation": "Replace Resource: \u0027*\u0027 with the specific ARNs of the resources this principal needs to access.",
+      "Severity": "High"
+    },
+    {
+      "RuleId": "ENC-001",
+      "ResourceName": "aws_s3_bucket.app_bucket",
+      "Description": "S3 bucket does not have server-side encryption configured. Objects stored in this bucket are not encrypted at rest.",
+      "Remediation": "Add a server_side_encryption_configuration block to your aws_s3_bucket resource with AES256 or aws:kms encryption.",
+      "Severity": "High"
+    },
+    {
+      "RuleId": "ENC-001",
+      "ResourceName": "aws_db_instance.main_database",
+      "Description": "RDS database instance has storage encryption disabled. Database files, backups, and snapshots are stored unencrypted.",
+      "Remediation": "Set storage_encrypted = true on your aws_db_instance resource. Note: encryption cannot be enabled on an existing instance \u2014 a snapshot restore to a new encrypted instance is required.",
+      "Severity": "High"
+    },
+    {
+      "RuleId": "ENC-001",
+      "ResourceName": "aws_ebs_volume.data_volume",
+      "Description": "EBS volume is not encrypted. Data stored on this volume is readable if the underlying storage is accessed directly.",
+      "Remediation": "Set encrypted = true on your aws_ebs_volume resource. You may also specify a KMS key with kms_key_id for additional control.",
+      "Severity": "High"
+    },
+    {
+      "RuleId": "LOG-001",
+      "ResourceName": "aws_cloudtrail.main_trail",
+      "Description": "CloudTrail has logging explicitly disabled. API activity in this AWS account is not being recorded, making security incidents undetectable and unauditable.",
+      "Remediation": "Set enable_logging = true on your aws_cloudtrail resource. Ensure the trail is also configured to log to a protected S3 bucket.",
+      "Severity": "Medium"
+    }
+  ]
+}

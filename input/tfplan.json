@@ -1,0 +1,101 @@
+{
+  "resource_changes": [
+    {
+      "address": "aws_security_group.open_web_server",
+      "type": "aws_security_group",
+      "change": {
+        "after": {
+          "name": "open-web-server-sg",
+          "ingress": [
+            {
+              "cidr_blocks": ["0.0.0.0/0"],
+              "from_port": 22,
+              "to_port": 22,
+              "protocol": "tcp",
+              "description": "SSH open to world"
+            },
+            {
+              "cidr_blocks": ["10.0.0.0/8"],
+              "from_port": 443,
+              "to_port": 443,
+              "protocol": "tcp",
+              "description": "HTTPS restricted - this one is fine"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "address": "aws_s3_bucket_public_access_block.app_bucket",
+      "type": "aws_s3_bucket_public_access_block",
+      "change": {
+        "after": {
+          "bucket": "my-app-bucket",
+          "block_public_acls": false,
+          "block_public_policy": false,
+          "ignore_public_acls": false,
+          "restrict_public_buckets": false
+        }
+      }
+    },
+    {
+      "address": "aws_s3_bucket.app_bucket",
+      "type": "aws_s3_bucket",
+      "change": {
+        "after": {
+          "bucket": "my-app-bucket",
+          "acl": "private"
+        }
+      }
+    },
+    {
+      "address": "aws_iam_policy.admin_policy",
+      "type": "aws_iam_policy",
+      "change": {
+        "after": {
+          "name": "AdminPolicy",
+          "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":\"*\",\"Resource\":\"*\"}]}"
+        }
+      }
+    },
+    {
+      "address": "aws_db_instance.main_database",
+      "type": "aws_db_instance",
+      "change": {
+        "after": {
+          "identifier": "main-db",
+          "engine": "mysql",
+          "engine_version": "8.0",
+          "instance_class": "db.t3.micro",
+          "storage_encrypted": false,
+          "username": "admin",
+          "db_name": "appdb"
+        }
+      }
+    },
+    {
+      "address": "aws_ebs_volume.data_volume",
+      "type": "aws_ebs_volume",
+      "change": {
+        "after": {
+          "availability_zone": "us-east-1a",
+          "size": 100,
+          "type": "gp3",
+          "encrypted": false
+        }
+      }
+    },
+    {
+      "address": "aws_cloudtrail.main_trail",
+      "type": "aws_cloudtrail",
+      "change": {
+        "after": {
+          "name": "main-trail",
+          "s3_bucket_name": "my-cloudtrail-bucket",
+          "enable_logging": false,
+          "include_global_service_events": true
+        }
+      }
+    }
+  ]
+}
